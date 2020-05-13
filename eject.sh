@@ -5,8 +5,8 @@ UDISKS="/usr/bin/udisksctl"
 # Define help function
 function print_help () {
   echo "switch: [-h|-?|--h|--help] [-i|--interactive]"
-  echo "usage: $0 [drive name]"
-  echo -e "       $0 /dev/sdb"
+  echo "usage: ejecting [drive name]"
+  echo -e "       ejecting /dev/sdb"
   echo
   echo "Toggle --interactive switch to automate task"
 }
@@ -74,6 +74,6 @@ if [ $# -gt 0 ]; then
   $UDISKS power-off -b $DRIVE_NAME && echo "Powering off $DRIVE_NAME"
 else
   echo "Missing option !!"
-  echo "Execute $0 --help to display usage"
+  echo "Execute ejecting --help to display usage"
   exit 1
 fi
