@@ -9,3 +9,13 @@ Though the script has already contain validation if the user doesn't have packag
            ejecting /dev/sdb
 
     Toggle --interactive switch to automate task
+
+### Installation
+
+To make it work on local sanction, create `~/bin` directory to store the script.
+    mkdir ~/bin
+    source ~/.profile
+You can now download the script directly to the `~/bin` directory
+    wget -O $HOME/bin/ejecting https://raw.githubusercontent.com/pascalbrahma/ejecting/master/eject.sh
+    chmod u+x $HOME/bin/ejecting
+Voila ! Try `ejecting` external drive :)
