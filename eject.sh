@@ -63,6 +63,15 @@ done
 
 if [ $# -gt 0 ]; then
   DRIVE_NAME="$1"
+  current_drive=$(findmnt -n -o SOURCE --target / | tr -d 0-9)
+  if [ ! -b "$DRIVE_NAME" ]; then
+    echo "Drive doesn't exist"
+    exit 2
+  fi
+  if [ "$1" == "$current_drive" ]; then
+    echo "You can't unmount currently used partition (main system)"
+    exit 2
+  fi
   declare -a drive
   OLDIFS=$IFS
   IFS=$'\n' read -d '' -r -a drive < <(lsblk -f $DRIVE_NAME | awk -vT="/dev/" 'NR>2 { print T$1 }' | tr -dc '/[:alnum:]\n\r')
