@@ -13,8 +13,10 @@ Though the script has already contain validation if the user doesn't have packag
 ### Installation
 
 To make it work on local sanction, create `~/bin` directory to store the script.
+
     mkdir ~/bin
     source ~/.profile
+    
 You can now download the script directly to the `~/bin` directory
 
     wget -O $HOME/bin/ejecting https://raw.githubusercontent.com/pascalbrahma/ejecting/master/eject.sh
