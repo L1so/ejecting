@@ -13,8 +13,8 @@ function print_help () {
 }
 
 function notify_unmount () {
-  if command -v notify-send >/dev/null 2>&1; then
-    DISPLAY=:0 notify-send -i '/usr/share/icons/gnome/32x32/devices/drive-removable-media.png' "Unmounting $1"
+  if command -v $NOTIFY >/dev/null 2>&1; then
+    DISPLAY=:0 $NOTIFY -i '/usr/share/icons/gnome/32x32/devices/drive-removable-media.png' "Unmounting $1"
   else
     echo "Unmounting $1"
   fi
@@ -33,7 +33,7 @@ function package_check () {
         "udisks2 package required but it is not installed. \
         Do you want to install it ?" yn; echo
         case $yn in
-          [Yy]* ) sudo apt-get install udisks2; break ;;
+          [Yy]* ) sudo apt-get install udisks2 >/dev/null && echo "udisks2 installed, rerun this script again"; return 1 ;;
           [Nn]* ) exit 2;;
           * ) echo "Please answer Y or N";;
         esac;
