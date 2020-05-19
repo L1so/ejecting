@@ -21,8 +21,8 @@ function notify_unmount () {
 }
 
 function notify_eject () {
-  if command -v notify-send >/dev/null 2>&1; then
-    DISPLAY=:0 notify-send -i '/usr/share/icons/gnome/32x32/devices/drive-optical.png' "You can now unplug $1 safely"
+  if command -v $NOTIFY >/dev/null 2>&1; then
+    DISPLAY=:0 $NOTIFY -i '/usr/share/icons/gnome/32x32/devices/drive-optical.png' "You can now unplug $1 safely"
   else
     echo "Powering off $1"
   fi
@@ -88,7 +88,7 @@ if [ $# -gt 0 ]; then
   DRIVE_NAME="$1"
   current_drive=$(findmnt -n -o SOURCE --target / | tr -d 0-9)
   if [ ! -b "$DRIVE_NAME" ]; then
-    echo "Drive doesn't exist"
+    echo "Drive $DRIVE_NAME doesn't exist"
     exit 2
   fi
   if [ "$1" == "$current_drive" ]; then
