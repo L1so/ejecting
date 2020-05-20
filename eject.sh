@@ -61,7 +61,13 @@ function interactive () {
       [[ $drives = Cancel ]] && echo "Bye !" && break
       local DRIVE_PARTITION=$(echo $drives | sed 's/on.*//' | sed 's/ //g')
       local DRIVE_NAME=$(tr -d 0-9 <<<$DRIVE_PARTITION)
-      { $UDISKS unmount -b $DRIVE_PARTITION >/dev/null ; } && notify_unmount "$DRIVE_PARTITION"
+      local MOUNTPOINT=$(awk '{ print $3 }' <<<$drives)
+      { $UDISKS unmount -b $DRIVE_PARTITION >/dev/null 2>&1 ; } && notify_unmount "$DRIVE_PARTITION"
+      local returnvalue=$?
+      if [ $returnvalue -ne 0 ]; then
+        echo "Device is busy, please close all instance of $MOUNTPOINT first"
+        exit $returnvalue
+      fi
       $UDISKS power-off -b "$DRIVE_NAME" && notify_eject "$DRIVE_NAME"
       echo "Done !" && break
     done
@@ -101,7 +107,13 @@ if [ $# -gt 0 ]; then
   IFS=${OLDIFS}
 
   for partition in "${drive[@]}"; do
-    { $UDISKS unmount -b $partition >/dev/null ; } && notify_unmount $partition
+    mountpoint=$(mount | awk -vT="$partition" '$0~T { print $3 }')
+    { $UDISKS unmount -b $partition >/dev/null 2>&1 ; } && notify_unmount $partition
+    returnvalue=$?
+    if [ $returnvalue -ne 0 ]; then
+      echo "Device is busy, please close all instance of $mountpoint first"
+      exit $returnvalue
+    fi
   done
   $UDISKS power-off -b $DRIVE_NAME && notify_eject $DRIVE_NAME
 else
