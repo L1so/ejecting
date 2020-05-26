@@ -19,7 +19,7 @@ To make it work on local sanction, create `~/bin` directory to store the script.
     
 You can now download the script directly to the `~/bin` directory
 
-    wget -O $HOME/bin/ejecting https://raw.githubusercontent.com/pascalbrahma/ejecting/master/eject.sh
+    wget -O $HOME/bin/ejecting https://raw.githubusercontent.com/pascalbrahma/ejecting/master/eject
     chmod u+x $HOME/bin/ejecting
     
 Voila ! Try `ejecting` external drive :)
